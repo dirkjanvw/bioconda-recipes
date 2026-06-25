@@ -1,0 +1,73 @@
+{% set name = "plantismash" %}
+{% set version = "2.0.1" %}
+{% set sha256 = "ff607842fbff95cd492f7fae38d8be4fed4d57641f246c48ee637ba000921823" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/plantismash/plantismash/archive/refs/tags/{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  noarch: python
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv
+  run_exports:
+    - {{ pin_subpackage("plantismash", max_pin="x") }}
+
+requirements:
+  host:
+    - python >=3.8,<3.9
+    - pip
+    - setuptools
+    - wheel
+  run:
+    - glimmer
+    - glimmerhmm
+    - prodigal
+    - pplacer
+    - ncbi-datasets-cli
+    - unzip
+    - hmmer ==3.3.2
+    - fasttree ==2.1.11
+    - diamond ==2.0.15
+    - muscle ==3.8.31
+    - blast ==2.12.0
+    - cd-hit ==4.8.1
+    - libxml2 ==2.10.3
+    - python >=3.8,<3.9
+    - biopython ==1.76
+    - numpy ==1.24.4
+    - cssselect
+    - pyquery
+    - helperlibs
+    - svgwrite
+    - openpyxl
+    - networkx ==3.1
+    - python-louvain ==0.16
+    - bcbio-gff ==0.6.7
+    - ete3
+    - tqdm
+    - logomaker
+    - moods
+    #- straight.plugin #TODO: UNCOMMENT
+    
+test:
+  commands:
+    - plantismash --help
+
+about:
+  home: https://github.com/plantismash/plantismash
+  summary: Detection of plant specialized metabolism gene clusters.
+  description: |
+    PlantiSMASH identifies and analyzes plant biosynthetic gene clusters,
+    including expanded rules, substrate prediction for selected enzyme families,
+    and TFBS detection.
+  license: AGPL-3.0-or-later
+  license_file: LICENSE.txt
+
+extra:
+  recipe-maintainers:
+    - elenadelpup
